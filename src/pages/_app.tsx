@@ -4,12 +4,12 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
   body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, "sans-serif";
     background-color: #fafafa;
   }
 
   button {
-    font-family: "Open Sans", sans-serif;
+    font-family: inherit;
   }
 
   * {

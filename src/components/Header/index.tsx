@@ -29,7 +29,6 @@ const Wrapper = styled.header`
   width: 100%;
   height: 76px;
   background-color: ${colors.primary};
-  grid-column: 1 / -1;
 
   .logo {
     color: white;
@@ -43,15 +42,8 @@ const Wrapper = styled.header`
   }
 
   .logo {
-    grid-column: 2 / span 3;
+    grid-column: 2 / span 5;
     justify-self: start;
-  }
-
-  @media ${breakpoints.md} {
-    .logo {
-      grid-column: 2 / span 3;
-      justify-self: start;
-    }
   }
 
   @media ${breakpoints.xl} {

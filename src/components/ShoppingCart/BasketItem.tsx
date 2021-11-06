@@ -11,10 +11,14 @@ type Props = {
 };
 
 const BasketItem = ({ name, price, amount, increment, decrement }: Props) => {
+  const formattedPrice = new Intl.NumberFormat("tr", {
+    maximumFractionDigits: 2,
+  }).format(price);
+
   return (
     <Wrapper>
       <Name>{name}</Name>
-      <Price>{price}</Price>
+      <Price>₺{formattedPrice}</Price>
 
       <AmountWrapper>
         <Button onClick={decrement}>
