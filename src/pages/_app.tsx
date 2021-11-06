@@ -1,16 +1,32 @@
-import "@/styles/globals.css";
-import "focus-visible";
-
 import Head from "next/head";
 import { AppProps } from "next/app";
+import { createGlobalStyle } from "styled-components";
+
+const GlobalStyles = createGlobalStyle`
+  body {
+    font-family: 'Open Sans', sans-serif;
+    background-color: #fafafa;
+  }
+
+  button {
+    font-family: "Open Sans", sans-serif;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+`;
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Next JS Template</title>
+        <title>GetirLocals</title>
       </Head>
 
+      <GlobalStyles />
       <Component {...pageProps} />
     </>
   );
