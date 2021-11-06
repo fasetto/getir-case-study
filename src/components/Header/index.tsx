@@ -3,20 +3,22 @@ import styled from "styled-components";
 
 import { Logo } from "@/icons";
 import { breakpoints, colors } from "@/theme";
-import { ShoppingCart } from "..";
+import { Grid, ShoppingCart } from "..";
 
 const Header = () => {
   return (
     <Wrapper>
-      <NextLink href="/">
-        <a className="logo">
-          <Logo />
-        </a>
-      </NextLink>
+      <Grid>
+        <NextLink href="/">
+          <a className="logo">
+            <Logo />
+          </a>
+        </NextLink>
 
-      <ShoppingCart
-        items={[{ name: "Example Product", price: 14.99, amount: 1 }]}
-      />
+        <ShoppingCart
+          items={[{ name: "Example Product", price: 14.99, amount: 1 }]}
+        />
+      </Grid>
     </Wrapper>
   );
 };
@@ -24,13 +26,10 @@ const Header = () => {
 export default Header;
 
 const Wrapper = styled.header`
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  justify-content: center;
-
   width: 100%;
   height: 76px;
   background-color: ${colors.primary};
+  grid-column: 1 / -1;
 
   .logo {
     color: white;
@@ -49,8 +48,6 @@ const Wrapper = styled.header`
   }
 
   @media ${breakpoints.md} {
-    gap: 16px;
-
     .logo {
       grid-column: 2 / span 3;
       justify-self: start;
@@ -58,8 +55,6 @@ const Wrapper = styled.header`
   }
 
   @media ${breakpoints.xl} {
-    grid-template-columns: repeat(12, 88px);
-
     .logo {
       grid-column: 6 / span 2;
     }

@@ -10,7 +10,6 @@ export const ViewCartButton = styled(Popover.Trigger)`
   max-width: 129px;
   padding: 26px 24px;
   color: white;
-  font-family: "Open Sans";
 
   display: flex;
   align-items: center;
