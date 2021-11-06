@@ -39,9 +39,8 @@ const ShoppingCart = ({ items }: Props) => {
         {items.length === 0 && <EmptyBasket>Your basket is empty!</EmptyBasket>}
 
         {items.map(item => (
-          <>
+          <React.Fragment key={item.name}>
             <BasketItem
-              key={item.name}
               name={item.name}
               price={item.price}
               amount={item.amount}
@@ -50,7 +49,7 @@ const ShoppingCart = ({ items }: Props) => {
             />
 
             <Seperator />
-          </>
+          </React.Fragment>
         ))}
 
         {items.length > 0 && <CheckoutButton>₺{totalCostText}</CheckoutButton>}
