@@ -26,7 +26,6 @@ export default Header;
 const Wrapper = styled.header`
   display: grid;
   grid-template-columns: repeat(12, 1fr);
-  gap: 16px;
   justify-content: center;
 
   width: 100%;
@@ -50,6 +49,8 @@ const Wrapper = styled.header`
   }
 
   @media ${breakpoints.md} {
+    gap: 16px;
+
     .logo {
       grid-column: 2 / span 3;
       justify-self: start;

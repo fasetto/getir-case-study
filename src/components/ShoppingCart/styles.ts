@@ -29,7 +29,11 @@ export const ViewCartButton = styled(Popover.Trigger)`
     opacity: 0.8;
   }
 
-  grid-column: 7 / 12;
+  grid-column: 7 / 13;
+
+  @media ${breakpoints.sm} {
+    grid-column: 7 / 12;
+  }
 
   @media ${breakpoints.lg} {
     grid-column: 10 / 12;
