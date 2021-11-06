@@ -10,7 +10,7 @@ type Props = {
   decrement: () => void;
 };
 
-const Product = ({ name, price, amount, increment, decrement }: Props) => {
+const BasketItem = ({ name, price, amount, increment, decrement }: Props) => {
   return (
     <Wrapper>
       <Name>{name}</Name>
@@ -31,7 +31,7 @@ const Product = ({ name, price, amount, increment, decrement }: Props) => {
   );
 };
 
-export default Product;
+export default BasketItem;
 
 const Wrapper = styled.div`
   display: grid;

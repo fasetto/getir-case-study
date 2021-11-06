@@ -10,16 +10,16 @@ import {
   Seperator,
   CheckoutButton,
 } from "./styles";
-import Product from "./Product";
+import BasketItem from "./BasketItem";
 
-type Product = {
+type BasketItem = {
   name: string;
   price: number;
   amount: number;
 };
 
 type Props = {
-  items: Product[];
+  items: BasketItem[];
 };
 
 const ShoppingCart = ({ items }: Props) => {
@@ -40,7 +40,7 @@ const ShoppingCart = ({ items }: Props) => {
 
         {items.map(item => (
           <>
-            <Product
+            <BasketItem
               key={item.name}
               name={item.name}
               price={item.price}
