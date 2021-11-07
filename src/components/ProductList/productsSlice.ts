@@ -3,73 +3,127 @@ import { createAction, createReducer } from "@reduxjs/toolkit";
 
 type LoadingStatus = "idle" | "loading" | "error" | "success";
 
+export type ProductFilters = {
+  productType?: string;
+  brand?: string;
+  tag?: string;
+  pagination?: {
+    currentPage?: number;
+    itemsPerPage?: number;
+  };
+};
+
 type ProductsState = {
   data: Product[];
   status: LoadingStatus;
-  filters: {
-    type: string;
-    brand: string;
-    tag: string;
+  filters: ProductFilters;
+  productTypes: {
+    data: string[];
+    status: LoadingStatus;
   };
-  productTypes: string[];
-  brands: string[];
+  brands: {
+    data: string[];
+    status: LoadingStatus;
+  };
+  productCount: number;
 };
-
-export const filterByType = createAction<string>("products/filterByType");
-export const fetchProductsAction = createAction("products/fetch");
-
-export const fetchSuccess = createAction<Product[]>("products/fetchSuccess");
-export const fetchFailed = createAction("products/fetchFailed");
-export const loadingAction = createAction("products/loading");
 
 const initialState: ProductsState = {
   data: [],
   status: "idle",
   filters: {
-    type: "mug",
-    brand: "all",
-    tag: "all",
+    productType: "mug",
+    // brand: "all",
+    // tag: "all",
+    pagination: {
+      currentPage: 1,
+      itemsPerPage: 16,
+    },
   },
-  productTypes: [],
-  brands: [],
+  productTypes: {
+    data: [],
+    status: "idle",
+  },
+  brands: {
+    data: [],
+    status: "idle",
+  },
+  productCount: 0,
 };
+
+export const setFilters = createAction<ProductFilters>("products/set_filters");
+export const loadProducts = createAction<ProductFilters>(
+  "products/load_products"
+);
+
+export const setProducts = createAction<Product[]>("products/set_products");
+export const setLoadingProducts = createAction<LoadingStatus>(
+  "products/products_loading"
+);
+
+export const loadBrands = createAction("products/load_brands");
+export const setBrands = createAction<string[]>("products/set_brands");
+export const setLoadingBrands = createAction<LoadingStatus>(
+  "products/brands_loading"
+);
+
+export const loadProductTypes = createAction("products/load_product_types");
+export const setProductTypes = createAction<string[]>(
+  "products/set_product_types"
+);
+export const setLoadingProductTypes = createAction<LoadingStatus>(
+  "products/product_types_loading"
+);
+
+export const setProductCount = createAction<number>(
+  "products/set_total_products"
+);
 
 const productsReducer = createReducer(initialState, builder => {
   builder
-    .addCase(filterByType, (state, action) => {
-      state.filters.type = action.payload;
+    .addCase(setFilters, (state, action) => {
+      state.filters = {
+        ...state.filters,
+        ...action.payload,
+      };
     })
-    .addCase(fetchSuccess, (state, action) => {
+    .addCase(setProducts, (state, action) => {
       state.data = action.payload;
-
-      state.productTypes = Array.from(
-        new Set(action.payload.map(x => x.itemType))
-      );
-
-      state.brands = Array.from(
-        new Set(action.payload.map(x => x.manufacturer))
-      );
-
       state.status = "success";
     })
 
-    .addCase(fetchFailed, (state, action) => {
-      state.status = "error";
+    .addCase(setProductCount, (state, action) => {
+      state.productCount = action.payload;
     })
 
-    .addCase(loadingAction, (state, action) => {
-      state.status = "loading";
+    .addCase(setLoadingProducts, (state, action) => {
+      state.status = action.payload;
+    })
+
+    .addCase(setLoadingBrands, (state, action) => {
+      state.brands.status = action.payload;
+    })
+
+    .addCase(setLoadingProductTypes, (state, action) => {
+      state.productTypes.status = action.payload;
+    })
+
+    .addCase(setBrands, (state, action) => {
+      state.brands.data = action.payload;
+    })
+
+    .addCase(setProductTypes, (state, action) => {
+      state.productTypes.data = action.payload;
     });
 });
 
 const productsSlice = {
   reducer: productsReducer,
   actions: {
-    filterByType,
-    fetchProducts: fetchProductsAction,
-    fetchSuccess,
-    fetchFailed,
-    loadingAction,
+    setFilters,
+    loadProducts,
+    setProducts,
+    setLoadingProducts,
   },
 };
 

@@ -5,9 +5,14 @@ import { breakpoints, colors } from "@/theme";
 import { Grid } from "..";
 import ToggleGroup from "./ToggleGroup";
 
-import { fetchProductsAction, filterByType } from "./productsSlice";
+import {
+  loadBrands,
+  loadProducts,
+  loadProductTypes,
+  setFilters,
+} from "./productsSlice";
 import { useAppDispatch, useAppSelector } from "@/hooks";
-import QueryBuilder from "@/utils/QueryBuilder";
+import Product from "../Product";
 
 type Props = {
   title: string;
@@ -15,19 +20,25 @@ type Props = {
 
 const ProductList = ({ title }: Props) => {
   const productsState = useAppSelector(s => s.products);
-  const filterState = productsState.filters;
+  const products = productsState.data;
+  const productFilters = productsState.filters;
   const productTypes = productsState.productTypes;
 
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(fetchProductsAction());
+    dispatch(loadProducts(productFilters));
+  }, [dispatch, productFilters]);
+
+  useEffect(() => {
+    dispatch(loadBrands());
+    dispatch(loadProductTypes());
   }, [dispatch]);
 
   const onProductTypeChange = (value: string) => {
     if (value === "") return;
 
-    dispatch(filterByType(value));
+    dispatch(setFilters({ productType: value }));
   };
 
   return (
@@ -35,21 +46,39 @@ const ProductList = ({ title }: Props) => {
       <Wrapper>
         <Title>{title}</Title>
 
-        {productsState.status === "success" && (
-          <>
-            <ToggleGroup
-              items={productTypes}
-              value={filterState.type}
-              onChange={onProductTypeChange}
-            />
-            <ProductListWrapper></ProductListWrapper>
-          </>
+        {productTypes.status === "success" && (
+          <ToggleGroup
+            items={productTypes.data}
+            value={productFilters.productType || ""}
+            onChange={onProductTypeChange}
+          />
         )}
 
+        {productsState.status === "success" && (
+          <ProductListWrapper>
+            {products.map(({ image, name, price, slug }) => (
+              <Product
+                key={slug}
+                slug={slug}
+                image={image}
+                name={name}
+                price={price}
+                isInBasket={false}
+                onAddedToBasket={id => console.log(id)}
+                onRemovedFromBasket={id => console.log(id)}
+              />
+            ))}
+          </ProductListWrapper>
+        )}
+
+        {productTypes.status === "loading" && <ToggleGroup.Skeleton />}
+
         {productsState.status === "loading" && (
-          <>
-            <ToggleGroup.Skeleton />
-          </>
+          <ProductListWrapper>
+            {Array.from({ length: 6 }).map((_, i) => (
+              <Product.Skeleton key={`skeleton-${i}`} />
+            ))}
+          </ProductListWrapper>
         )}
       </Wrapper>
     </Grid>
