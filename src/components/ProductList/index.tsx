@@ -14,13 +14,16 @@ import {
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import Product from "../Product";
 import Pagination from "../Pagination";
+import { addItem, removeItem } from "../ShoppingCart/shoppingCartSlice";
 
 type Props = {
   title: string;
 };
 
 const ProductList = ({ title }: Props) => {
+  const shoppingCart = useAppSelector(s => s.shoppingCart);
   const productsState = useAppSelector(s => s.products);
+
   const products = productsState.data;
   const productFilters = productsState.filters;
   const productTypes = productsState.productTypes;
@@ -65,16 +68,18 @@ const ProductList = ({ title }: Props) => {
 
         {productsState.status === "success" && (
           <ProductListWrapper>
-            {products.map(({ image, name, price, slug }) => (
+            {products.map(item => (
               <Product
-                key={slug}
-                slug={slug}
-                image={image}
-                name={name}
-                price={price}
-                isInBasket={false}
-                onAddedToBasket={id => console.log(id)}
-                onRemovedFromBasket={id => console.log(id)}
+                key={item.slug}
+                image={item.image}
+                name={item.name}
+                price={item.price}
+                isInBasket={
+                  shoppingCart.items.filter(x => x.item.slug === item.slug)
+                    .length > 0
+                }
+                onAddedToBasket={() => dispatch(addItem(item))}
+                onRemovedFromBasket={() => dispatch(removeItem(item))}
               />
             ))}
           </ProductListWrapper>

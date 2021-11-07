@@ -1,14 +1,16 @@
 import { configureStore } from "@reduxjs/toolkit";
 import createSagaMiddleware from "@redux-saga/core";
 
-import productsSlice from "@/components/ProductList/productsSlice";
 import rootSaga from "./rootSaga";
+import productsSlice from "@/components/ProductList/productsSlice";
+import shoppingCartSlice from "@/components/ShoppingCart/shoppingCartSlice";
 
 const sagaMiddleware = createSagaMiddleware();
 
 const store = configureStore({
   reducer: {
     products: productsSlice.reducer,
+    shoppingCart: shoppingCartSlice.reducer,
   },
   middleware: getDefaultMiddleware => [
     ...getDefaultMiddleware({ thunk: false }),

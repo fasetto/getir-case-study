@@ -5,13 +5,12 @@ import styled from "styled-components";
 import Skeleton from "./Skeleton";
 
 type Props = {
-  slug: string;
   image: string;
   name: string;
   price: number;
   isInBasket: boolean;
-  onAddedToBasket: (id: string) => void;
-  onRemovedFromBasket: (id: string) => void;
+  onAddedToBasket: () => void;
+  onRemovedFromBasket: () => void;
 };
 
 interface ProductType extends React.FC<Props> {
@@ -19,7 +18,6 @@ interface ProductType extends React.FC<Props> {
 }
 
 const Product: ProductType = ({
-  slug,
   image,
   name,
   price,
@@ -34,8 +32,8 @@ const Product: ProductType = ({
   const buttonText = isInBasket ? "Remove" : "Add";
 
   const handleAddOrRemove = () => {
-    if (isInBasket) onRemovedFromBasket(slug);
-    else onAddedToBasket(slug);
+    if (isInBasket) onRemovedFromBasket();
+    else onAddedToBasket();
   };
 
   return (
@@ -48,7 +46,9 @@ const Product: ProductType = ({
         <span>₺</span> {formattedPrice}
       </PriceText>
       <ProductName>{name}</ProductName>
-      <AddOrRemove onClick={handleAddOrRemove}>{buttonText}</AddOrRemove>
+      <AddOrRemove data-is-in-basket={isInBasket} onClick={handleAddOrRemove}>
+        {buttonText}
+      </AddOrRemove>
     </ProductWrapper>
   );
 };
@@ -115,6 +115,10 @@ const AddOrRemove = styled.button`
 
   height: max-content;
   align-self: end;
+
+  &[data-is-in-basket="true"] {
+    background-color: #5d3ebc;
+  }
 
   &:hover {
     opacity: 0.8;

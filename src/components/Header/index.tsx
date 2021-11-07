@@ -15,9 +15,7 @@ const Header = () => {
           </a>
         </NextLink>
 
-        <ShoppingCart
-          items={[{ name: "Example Product", price: 14.99, amount: 1 }]}
-        />
+        <ShoppingCart />
       </Grid>
     </Wrapper>
   );

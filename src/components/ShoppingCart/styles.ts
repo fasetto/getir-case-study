@@ -7,7 +7,7 @@ export const ViewCartButton = styled(Popover.Trigger)`
   appearance: none;
   border: none;
   background-color: ${colors.primaryDark};
-  max-width: 129px;
+  min-width: 129px;
   padding: 26px 24px;
   color: white;
 
@@ -66,6 +66,8 @@ export const Content = styled(Popover.Content)`
   width: 296px;
   padding: 26px 22px;
   padding-bottom: 16px;
+  max-height: 60vh;
+  overflow-y: auto;
 
   display: flex;
   flex-direction: column;
