@@ -44,7 +44,9 @@ const Product: ProductType = ({
         <img src={image} alt={name} />
       </ImageWrapper>
 
-      <PriceText>₺ {formattedPrice}</PriceText>
+      <PriceText>
+        <span>₺</span> {formattedPrice}
+      </PriceText>
       <ProductName>{name}</ProductName>
       <AddOrRemove onClick={handleAddOrRemove}>{buttonText}</AddOrRemove>
     </ProductWrapper>
@@ -79,11 +81,15 @@ const ImageWrapper = styled.figure`
 `;
 
 const PriceText = styled.div`
-  font-weight: normal;
+  font-weight: 700;
   font-size: 14px;
   line-height: 20px;
   color: ${colors.primary};
   text-align: left;
+
+  span {
+    font-weight: 400;
+  }
 `;
 
 const ProductName = styled.div`
