@@ -1,6 +1,11 @@
+import React from "react";
 import Head from "next/head";
 import { AppProps } from "next/app";
 import { createGlobalStyle } from "styled-components";
+import { Provider } from "react-redux";
+import { IdProvider } from "@radix-ui/react-id";
+
+import store from "@/store";
 
 const GlobalStyles = createGlobalStyle`
   body {
@@ -27,7 +32,12 @@ function MyApp({ Component, pageProps }: AppProps) {
       </Head>
 
       <GlobalStyles />
-      <Component {...pageProps} />
+
+      <Provider store={store}>
+        <IdProvider>
+          <Component {...pageProps} />
+        </IdProvider>
+      </Provider>
     </>
   );
 }
