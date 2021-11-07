@@ -66,6 +66,11 @@ const StyledButton = styled.div<PaginationButtonProps>`
 const StyledDots = styled(DotsHorizontal)`
   color: #697488;
   font-size: 10px;
+  cursor: pointer;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `;
 
 const StyledWrapper = styled.div`
