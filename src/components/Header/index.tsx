@@ -29,6 +29,8 @@ const Wrapper = styled.header`
   width: 100%;
   height: 76px;
   background-color: ${colors.primary};
+  position: sticky;
+  top: 0;
 
   .logo {
     color: white;
