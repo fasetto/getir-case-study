@@ -88,4 +88,17 @@ const ProductListWrapper = styled.div`
   box-shadow: 0px 4px 24px 0px #5d3ebc0a;
   border-radius: 2px;
   padding: 20px;
+
+  display: grid;
+  grid-template-columns: repeat(2, max-content);
+  column-gap: 24px;
+  row-gap: 20px;
+
+  @media ${breakpoints.sm} {
+    grid-template-columns: repeat(3, max-content);
+  }
+
+  @media ${breakpoints.md} {
+    grid-template-columns: repeat(4, max-content);
+  }
 `;
