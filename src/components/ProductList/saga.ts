@@ -37,7 +37,10 @@ function* fetchProducts({ payload }: FetchProductsSaga) {
     .filter("manufacturer", payload.brand)
     .sort("added")
     .orderBy("desc")
-    .paginate(paginationOptions.current, paginationOptions.perPage)
+    .paginate(
+      paginationOptions.current * paginationOptions.perPage + 1,
+      paginationOptions.perPage
+    )
     .toString();
 
   try {
