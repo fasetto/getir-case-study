@@ -1,5 +1,12 @@
-import { Header } from "@/components";
+import React from "react";
+
+import { Header, ProductList } from "@/components";
 
 export default function Home() {
-  return <Header />;
+  return (
+    <>
+      <Header />
+      <ProductList title="Products" />
+    </>
+  );
 }
