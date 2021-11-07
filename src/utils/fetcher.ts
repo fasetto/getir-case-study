@@ -27,8 +27,7 @@ const fetcher = async (resource: string, init?: RequestInit) => {
     throw error;
   }
 
-  const result = await response.json();
-  return result;
+  return response;
 };
 
 export default fetcher;
