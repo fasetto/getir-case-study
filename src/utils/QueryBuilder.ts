@@ -1,20 +1,24 @@
 class QueryBuilder {
   private parameters: Record<string, string> = {};
 
-  public sort(field: string) {
-    this.parameters = {
-      ...this.parameters,
-      _sort: field,
-    };
+  public sort(field?: string) {
+    if (field) {
+      this.parameters = {
+        ...this.parameters,
+        _sort: field,
+      };
+    }
 
     return this;
   }
 
-  public orderBy(type: "asc" | "desc") {
-    this.parameters = {
-      ...this.parameters,
-      _order: type,
-    };
+  public orderBy(type?: "asc" | "desc") {
+    if (type) {
+      this.parameters = {
+        ...this.parameters,
+        _order: type,
+      };
+    }
 
     return this;
   }
@@ -29,11 +33,13 @@ class QueryBuilder {
     return this;
   }
 
-  public filter(field: string, value: string) {
-    this.parameters = {
-      ...this.parameters,
-      [field]: value,
-    };
+  public filter(field?: string, value?: string) {
+    if (field && value) {
+      this.parameters = {
+        ...this.parameters,
+        [field]: value,
+      };
+    }
 
     return this;
   }
