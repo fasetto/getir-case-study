@@ -89,7 +89,6 @@ const productsReducer = createReducer(initialState, builder => {
     })
     .addCase(setProducts, (state, action) => {
       state.data = action.payload;
-      state.status = "success";
     })
 
     .addCase(setProductCount, (state, action) => {

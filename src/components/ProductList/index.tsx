@@ -13,6 +13,7 @@ import {
 } from "./productsSlice";
 import { useAppDispatch, useAppSelector } from "@/hooks";
 import Product from "../Product";
+import Pagination from "../Pagination";
 
 type Props = {
   title: string;
@@ -23,6 +24,10 @@ const ProductList = ({ title }: Props) => {
   const products = productsState.data;
   const productFilters = productsState.filters;
   const productTypes = productsState.productTypes;
+  const pageCount = Math.ceil(
+    productsState.productCount /
+      (productFilters?.pagination?.itemsPerPage || 16)
+  );
 
   const dispatch = useAppDispatch();
 
@@ -39,6 +44,10 @@ const ProductList = ({ title }: Props) => {
     if (value === "") return;
 
     dispatch(setFilters({ productType: value }));
+  };
+
+  const onPageChange = (page: number) => {
+    dispatch(setFilters({ pagination: { currentPage: page } }));
   };
 
   return (
@@ -80,6 +89,8 @@ const ProductList = ({ title }: Props) => {
             ))}
           </ProductListWrapper>
         )}
+
+        <Pagination onPageChange={onPageChange} pageCount={pageCount} />
       </Wrapper>
     </Grid>
   );
@@ -117,6 +128,7 @@ const ProductListWrapper = styled.div`
   box-shadow: 0px 4px 24px 0px #5d3ebc0a;
   border-radius: 2px;
   padding: 20px;
+  width: max-content;
 
   display: grid;
   grid-template-columns: repeat(2, max-content);
