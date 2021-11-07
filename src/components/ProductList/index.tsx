@@ -90,7 +90,9 @@ const ProductList = ({ title }: Props) => {
           </ProductListWrapper>
         )}
 
-        <Pagination onPageChange={onPageChange} pageCount={pageCount} />
+        {productsState.productCount !== 0 && (
+          <Pagination onPageChange={onPageChange} pageCount={pageCount} />
+        )}
       </Wrapper>
     </Grid>
   );
