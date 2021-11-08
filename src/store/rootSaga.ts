@@ -4,7 +4,7 @@ import {
   watchFetchBrands,
   watchFetchProducts,
   watchFetchProductTypes,
-} from "@/components/ProductList/saga";
+} from "@/components/ProductList/sagas";
 
 export default function* rootSaga() {
   yield all([
