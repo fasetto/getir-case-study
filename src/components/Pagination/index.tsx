@@ -94,8 +94,6 @@ const StyledPagination = styled(ReactPaginate)`
   .page {
     width: 32px;
     height: 40px;
-    display: grid;
-    place-items: center;
     border-radius: 2px;
     cursor: pointer;
     color: ${colors.gray500};
@@ -104,6 +102,11 @@ const StyledPagination = styled(ReactPaginate)`
     &.selected {
       color: white;
       background-color: ${colors.primary};
+    }
+
+    a {
+      display: grid;
+      place-items: center;
     }
   }
 
