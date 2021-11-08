@@ -38,7 +38,7 @@ function* fetchProducts({ payload }: FetchProductsSaga) {
     .sort("added")
     .orderBy("desc")
     .paginate(
-      paginationOptions.current * paginationOptions.perPage + 1,
+      (paginationOptions.current - 1) * paginationOptions.perPage,
       paginationOptions.perPage
     )
     .toString();
