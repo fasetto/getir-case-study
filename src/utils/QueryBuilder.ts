@@ -37,7 +37,7 @@ class QueryBuilder {
     if (field && value) {
       this.parameters = {
         ...this.parameters,
-        [field]: value,
+        [field + "_like"]: value,
       };
     }
 
