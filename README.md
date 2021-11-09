@@ -1,6 +1,10 @@
 # GetirLocals
 
 This is Next JS project with TypeScript.
+The api is powered by [json-server](https://github.com/typicode/json-server).
+
+- Api Live: [getir-locals-api.herokuapp.com](getir-locals-api.herokuapp.com)
+- Frontend Live: [getir-case-study-one.vercel.app](https://getir-case-study-one.vercel.app/)
 
 ## Project Structure
 
