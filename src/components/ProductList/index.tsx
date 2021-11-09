@@ -46,7 +46,11 @@ const ProductList = ({ title }: Props) => {
   return (
     <Grid>
       <FilterWrapper>
-        <Sortbox title="Sorting" defaultOption="price_asc" onChange={onSortProducts} />
+        <Sortbox
+          title="Sorting"
+          defaultOption="price_asc"
+          onChange={onSortProducts}
+        />
 
         <FilterBox
           title="Brands"
@@ -61,6 +65,7 @@ const ProductList = ({ title }: Props) => {
             )
           }
           onChange={onFilterBrands}
+          loadingStatus={productsState.brands.status}
         />
 
         <FilterBox
@@ -76,6 +81,7 @@ const ProductList = ({ title }: Props) => {
             )
           }
           onChange={onFilterTags}
+          loadingStatus={productsState.tags.status}
         />
       </FilterWrapper>
 

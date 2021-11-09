@@ -1,8 +1,6 @@
-import { Product } from "@/types";
+import { LoadingStatus, Product } from "@/types";
 import { createAction, createReducer } from "@reduxjs/toolkit";
 import { SortOptionType } from "../Sortbox";
-
-type LoadingStatus = "idle" | "loading" | "error" | "success";
 
 export type ProductFilters = {
   productType?: string;

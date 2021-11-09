@@ -7,3 +7,5 @@ export type Product = {
   itemType: string;
   manufacturer: string;
 };
+
+export type LoadingStatus = "idle" | "loading" | "error" | "success";

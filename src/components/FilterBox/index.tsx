@@ -3,14 +3,18 @@ import * as TogglePrimitive from "@radix-ui/react-toggle-group";
 
 import debounce from "@/utils/debounce";
 import { colors } from "@/theme";
-import { Input } from "..";
 import { CheckIcon } from "@/icons";
+import { Input } from "..";
+
+import { LoadingStatus } from "@/types";
+import Skeleton from "./Skeleton";
 
 type Props = {
   title: string;
   placeholder: string;
   options: string[];
   defaultOptions: string[];
+  loadingStatus: LoadingStatus;
   onSearch: (value: string) => void;
   onChange?: (items: string[]) => void;
 };
@@ -20,6 +24,7 @@ const FilterBox = ({
   placeholder,
   options,
   defaultOptions,
+  loadingStatus,
   onSearch,
   onChange,
 }: Props) => {
@@ -39,21 +44,25 @@ const FilterBox = ({
           onChange={e => handleSearch(e.target.value)}
         />
 
-        <ToggleRoot
-          type="multiple"
-          defaultValue={defaultOptions}
-          onValueChange={onChange}
-        >
-          {options.map(option => (
-            <ToggleItem key={option} value={option}>
-              <StyledIcon>
-                <CheckIcon />
-              </StyledIcon>
+        {loadingStatus === "loading" && <Skeleton />}
 
-              <span>{option}</span>
-            </ToggleItem>
-          ))}
-        </ToggleRoot>
+        {loadingStatus === "success" && (
+          <ToggleRoot
+            type="multiple"
+            defaultValue={defaultOptions}
+            onValueChange={onChange}
+          >
+            {options.map(option => (
+              <ToggleItem key={option} value={option}>
+                <StyledIcon>
+                  <CheckIcon />
+                </StyledIcon>
+
+                <span>{option}</span>
+              </ToggleItem>
+            ))}
+          </ToggleRoot>
+        )}
       </StyledBox>
     </StyledWrapper>
   );
