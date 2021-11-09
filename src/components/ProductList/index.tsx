@@ -1,60 +1,84 @@
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import styled from "styled-components";
 
 import { breakpoints, colors } from "@/theme";
 import { Grid } from "..";
 import ToggleGroup from "./ToggleGroup";
 
-import {
-  loadBrands,
-  loadProducts,
-  loadProductTypes,
-  setFilters,
-} from "./productsSlice";
-import { useAppDispatch, useAppSelector } from "@/hooks";
 import Product from "../Product";
 import Pagination from "../Pagination";
 import { addItem, removeItem } from "../ShoppingCart/shoppingCartSlice";
+import FilterBox from "../FilterBox";
+import useProduct from "./useProduct";
+import Sortbox from "../Sortbox";
 
 type Props = {
   title: string;
 };
 
 const ProductList = ({ title }: Props) => {
-  const shoppingCart = useAppSelector(s => s.shoppingCart);
-  const productsState = useAppSelector(s => s.products);
+  const [tags, setTags] = useState<string[]>([]);
+  const [brands, setBrands] = useState<string[]>([]);
 
-  const products = productsState.data;
-  const productFilters = productsState.filters;
-  const productTypes = productsState.productTypes;
-  const pageCount = Math.ceil(
-    productsState.productCount /
-      (productFilters?.pagination?.itemsPerPage || 16)
-  );
-
-  const dispatch = useAppDispatch();
+  const {
+    shoppingCart,
+    products,
+    productsState,
+    productFilters,
+    productTypes,
+    pageCount,
+    onSortProducts,
+    onFilterBrands,
+    onFilterTags,
+    onPageChange,
+    onProductTypeChange,
+    dispatch,
+  } = useProduct();
 
   useEffect(() => {
-    dispatch(loadProducts(productFilters));
-  }, [dispatch, productFilters]);
+    setBrands(productsState.brands.data);
+  }, [productsState.brands.data]);
 
   useEffect(() => {
-    dispatch(loadBrands());
-    dispatch(loadProductTypes());
-  }, [dispatch]);
-
-  const onProductTypeChange = (value: string) => {
-    if (value === "") return;
-
-    dispatch(setFilters({ productType: value }));
-  };
-
-  const onPageChange = (page: number) => {
-    dispatch(setFilters({ pagination: { currentPage: page } }));
-  };
+    setTags(productsState.tags.data);
+  }, [productsState.tags.data]);
 
   return (
     <Grid>
+      <FilterWrapper>
+        <Sortbox title="Sorting" defaultOption="price_asc" onChange={onSortProducts} />
+
+        <FilterBox
+          title="Brands"
+          placeholder="Search brands"
+          options={["All", ...brands]}
+          defaultOptions={["All"]}
+          onSearch={value =>
+            setBrands(
+              productsState.brands.data.filter(x =>
+                x.toLowerCase().includes(value)
+              )
+            )
+          }
+          onChange={onFilterBrands}
+        />
+
+        <FilterBox
+          title="Tags"
+          placeholder="Search tags"
+          options={["All", ...tags]}
+          defaultOptions={["All"]}
+          onSearch={value =>
+            setTags(
+              productsState.tags.data.filter(x =>
+                x.toLowerCase().includes(value)
+              )
+            )
+          }
+          onChange={onFilterTags}
+        />
+      </FilterWrapper>
+
       <Wrapper>
         <Title>{title}</Title>
 
@@ -109,7 +133,7 @@ const Wrapper = styled.main`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  margin-top: 28px;
+  margin-top: 38px;
 
   grid-column: 2 / -2;
 
@@ -117,8 +141,29 @@ const Wrapper = styled.main`
     margin-top: 38px;
   }
 
+  @media ${breakpoints.lg} {
+    grid-column: 5 / span 6;
+  }
+
   @media ${breakpoints.xl} {
     grid-column: 4 / span 6;
+  }
+`;
+
+const FilterWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin-top: 38px;
+
+  grid-column: 2 / -2;
+
+  @media ${breakpoints.lg} {
+    grid-column: 2 / span 3;
+  }
+
+  @media ${breakpoints.lg} {
+    grid-column: 1 / span 3;
   }
 `;
 

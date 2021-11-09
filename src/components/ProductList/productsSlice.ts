@@ -1,12 +1,14 @@
 import { Product } from "@/types";
 import { createAction, createReducer } from "@reduxjs/toolkit";
+import { SortOptionType } from "../Sortbox";
 
 type LoadingStatus = "idle" | "loading" | "error" | "success";
 
 export type ProductFilters = {
   productType?: string;
-  brand?: string;
-  tag?: string;
+  brands?: string[];
+  tags?: string[];
+  sortBy?: SortOptionType;
   pagination?: {
     currentPage?: number;
     itemsPerPage?: number;
@@ -25,6 +27,10 @@ type ProductsState = {
     data: string[];
     status: LoadingStatus;
   };
+  tags: {
+    data: string[];
+    status: LoadingStatus;
+  };
   productCount: number;
 };
 
@@ -33,8 +39,9 @@ const initialState: ProductsState = {
   status: "idle",
   filters: {
     productType: "mug",
-    // brand: "all",
-    // tag: "all",
+    brands: [],
+    tags: [],
+    sortBy: "price_asc",
     pagination: {
       currentPage: 1,
       itemsPerPage: 16,
@@ -45,6 +52,10 @@ const initialState: ProductsState = {
     status: "idle",
   },
   brands: {
+    data: [],
+    status: "idle",
+  },
+  tags: {
     data: [],
     status: "idle",
   },
@@ -75,6 +86,12 @@ export const setLoadingProductTypes = createAction<LoadingStatus>(
   "products/product_types_loading"
 );
 
+export const loadTags = createAction("products/load_tags");
+export const setTags = createAction<string[]>("products/set_tags");
+export const setLoadingTags = createAction<LoadingStatus>(
+  "products/tags_loading"
+);
+
 export const setProductCount = createAction<number>(
   "products/set_total_products"
 );
@@ -103,12 +120,20 @@ const productsReducer = createReducer(initialState, builder => {
       state.brands.status = action.payload;
     })
 
+    .addCase(setLoadingTags, (state, action) => {
+      state.tags.status = action.payload;
+    })
+
     .addCase(setLoadingProductTypes, (state, action) => {
       state.productTypes.status = action.payload;
     })
 
     .addCase(setBrands, (state, action) => {
       state.brands.data = action.payload;
+    })
+
+    .addCase(setTags, (state, action) => {
+      state.tags.data = action.payload;
     })
 
     .addCase(setProductTypes, (state, action) => {

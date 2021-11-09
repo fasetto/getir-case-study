@@ -12,6 +12,9 @@ import {
   setProductTypes,
   setLoadingBrands,
   setLoadingProductTypes,
+  setLoadingTags,
+  setTags,
+  loadTags,
 } from "./productsSlice";
 import { Product } from "@/types";
 import fetcher from "@/utils/fetcher";
@@ -30,18 +33,38 @@ function* fetchProducts({ payload }: FetchProductsSaga) {
     perPage: payload.pagination?.itemsPerPage || 16,
   };
 
-  const queryBuilder = new QueryBuilder();
-  const queries = queryBuilder
+  let queryBuilder = new QueryBuilder();
+  queryBuilder
     .filter("itemType", payload.productType)
-    .filter("tag", payload.tag)
-    .filter("manufacturer", payload.brand)
-    .sort("added")
-    .orderBy("desc")
     .paginate(
       (paginationOptions.current - 1) * paginationOptions.perPage,
       paginationOptions.perPage
-    )
-    .toString();
+    );
+
+  payload.brands?.forEach(brand => {
+    queryBuilder = queryBuilder.filter("manufacturer", brand);
+  });
+
+  payload.tags?.forEach(brand => {
+    queryBuilder = queryBuilder.filter("tags", brand);
+  });
+
+  switch (payload.sortBy) {
+    case "date_asc":
+      queryBuilder = queryBuilder.sort("added").orderBy("asc");
+      break;
+    case "date_desc":
+      queryBuilder = queryBuilder.sort("added").orderBy("desc");
+      break;
+    case "price_asc":
+      queryBuilder = queryBuilder.sort("price").orderBy("asc");
+      break;
+    case "price_desc":
+      queryBuilder = queryBuilder.sort("price").orderBy("desc");
+      break;
+  }
+
+  const queries = queryBuilder.toString();
 
   try {
     yield put(setLoadingProducts("loading"));
@@ -91,6 +114,19 @@ function* fetchProductTypes() {
   } catch {}
 }
 
+function* fetchTags() {
+  try {
+    yield put(setLoadingTags("loading"));
+    yield delay(3000);
+
+    const response: Response = yield fetcher("/tags");
+    let result: string[] = yield response.json();
+
+    yield put(setTags(result));
+    yield put(setLoadingTags("success"));
+  } catch {}
+}
+
 export function* watchFetchProducts() {
   yield takeLatest(loadProducts.type, fetchProducts);
 }
@@ -98,6 +134,11 @@ export function* watchFetchProducts() {
 export function* watchFetchProductTypes() {
   yield takeLatest(loadProductTypes.type, fetchProductTypes);
 }
+
 export function* watchFetchBrands() {
   yield takeLatest(loadBrands.type, fetchBrands);
+}
+
+export function* watchFetchTags() {
+  yield takeLatest(loadTags.type, fetchTags);
 }

@@ -4,6 +4,7 @@ import {
   watchFetchBrands,
   watchFetchProducts,
   watchFetchProductTypes,
+  watchFetchTags,
 } from "@/components/ProductList/sagas";
 
 export default function* rootSaga() {
@@ -11,5 +12,6 @@ export default function* rootSaga() {
     fork(watchFetchProducts),
     fork(watchFetchBrands),
     fork(watchFetchProductTypes),
+    fork(watchFetchTags),
   ]);
 }
