@@ -162,7 +162,7 @@ const FilterWrapper = styled.div`
     grid-column: 2 / span 3;
   }
 
-  @media ${breakpoints.lg} {
+  @media ${breakpoints.xl} {
     grid-column: 1 / span 3;
   }
 `;
