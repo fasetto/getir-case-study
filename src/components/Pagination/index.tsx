@@ -37,8 +37,8 @@ type PaginationButtonProps = {
 
 const PrevButton = () => (
   <StyledButton pageDirection="prev">
-    <span>Prev</span>
     <ChevronLeft />
+    <span>Prev</span>
   </StyledButton>
 );
 
